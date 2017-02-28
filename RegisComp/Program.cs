@@ -22,15 +22,45 @@ namespace RegisComp
 
             foreach (var file in dir.GetFiles("*.dll",SearchOption.TopDirectoryOnly))
             {
-                if (Directory.Exists(x86))
+                try
                 {
-                    File.Copy(Path.Combine(Directory.GetCurrentDirectory(),file.ToString()), Path.Combine(x86, file.ToString()), true);
-                    ExecuteCommand(x86 + @"\REGSVR32 " + Path.Combine(x86, file.ToString()));
+                    if (Directory.Exists(x86))
+                    {
+                        File.Copy(Path.Combine(Directory.GetCurrentDirectory(),file.ToString()), Path.Combine(x86, file.ToString()), true);
+                        ExecuteCommand(x86 + @"\REGSVR32 " + Path.Combine(x86, file.ToString()));
+                    }
+                    if (Directory.Exists(x64))
+                    {
+                        File.Copy(Path.Combine(Directory.GetCurrentDirectory(), file.ToString()), Path.Combine(x64, file.ToString()), true);
+                        ExecuteCommand(x64 + @"\REGSVR32 " + Path.Combine(x64, file.ToString()));
+                    }
                 }
-                if (Directory.Exists(x64))
+                catch (Exception ex)
                 {
-                    File.Copy(Path.Combine(Directory.GetCurrentDirectory(), file.ToString()), Path.Combine(x64, file.ToString()), true);
-                    ExecuteCommand(x64 + @"\REGSVR32 " + Path.Combine(x64, file.ToString()));
+                    Console.WriteLine(ex);
+                    //throw;
+                }
+
+            }
+            foreach (var file in dir.GetFiles("*.ocx", SearchOption.TopDirectoryOnly))
+            {
+                try
+                {
+                    if (Directory.Exists(x86))
+                    {
+                        File.Copy(Path.Combine(Directory.GetCurrentDirectory(), file.ToString()), Path.Combine(x86, file.ToString()), true);
+                        ExecuteCommand(x86 + @"\REGSVR32 " + Path.Combine(x86, file.ToString()));
+                    }
+                    if (Directory.Exists(x64))
+                    {
+                        File.Copy(Path.Combine(Directory.GetCurrentDirectory(), file.ToString()), Path.Combine(x64, file.ToString()), true);
+                        ExecuteCommand(x64 + @"\REGSVR32 " + Path.Combine(x64, file.ToString()));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    //throw;
                 }
             }
         }
